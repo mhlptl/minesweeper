@@ -9,6 +9,7 @@ for(let i = 0; i < 10; i++) {
         let listItem = document.createElement('li');
         listItem.className = 'list-item';
         listItem.innerText = '\xA0';
+        listItem.id = `item-${i}x${j}`
         list.appendChild(listItem);
     }
     div.appendChild(list);
@@ -24,6 +25,13 @@ for(let i = 0; i < item.length; i++) {
         console.log('right clicked!');
     })
     item[i].addEventListener('click', function(e) {
-        console.log('left clicked!');
+        let id = item[i].id;
+        let loc = id.substring(5);
+        let coords = loc.split('x');
+        let obj = {x: Number(coords[0]), y: Number(coords[1])};
+        if(checkDups(locations, obj)) {
+            item[i].classList.add('mine');
+        }
+        // console.log('left clicked!');
     })
 }

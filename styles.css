@@ -35,6 +35,11 @@ body {
     border: 1px solid black;
 }
 
+.list-item:hover {
+    background-color: aqua;
+    opacity: 0.1;
+}
+
 .mine {
     background-color: red;
 }
