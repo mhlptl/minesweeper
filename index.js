@@ -8,7 +8,12 @@ for(let i = 0; i < 10; i++) {
     for(let j = 0; j < 10; j++) {
         let listItem = document.createElement('li');
         listItem.className = 'list-item';
-        listItem.innerText = '\xA0';
+        let text = document.createElement('p');
+        text.innerText = '\xA0';
+        text.id = `text-${i}x${j}`;
+        text.className = 'item-text';
+        // listItem.innerText = '\xA0';
+        listItem.appendChild(text);
         listItem.id = `item-${i}x${j}`
         list.appendChild(listItem);
     }
@@ -22,9 +27,13 @@ for(let i = 0; i < item.length; i++) {
     item[i].addEventListener('contextmenu', function(e) {
         e.preventDefault();
         item[i].classList.toggle('flagged');
+        changeFlagged();
         console.log('right clicked!');
     })
     item[i].addEventListener('click', function(e) {
+        if(item[i].classList.contains('flagged')) {
+            return;
+        }
         let id = item[i].id;
         let loc = id.substring(5);
         let coords = loc.split('x');
@@ -41,10 +50,19 @@ for(let i = 0; i < item.length; i++) {
                 });
             }
             else {
-                item[i].innerHTML = checkSpot(locations, obj);
+                document.getElementById(`text-${loc}`).innerText = checkSpot(locations, obj);
                 item[i].classList.add('safe');
             }
         }
         // console.log('left clicked!');
     })
+}
+
+
+let timeElapsed = () => {
+    
+}
+
+let changeFlagged = () => {
+    document.getElementById('num-flagged').innerText =  (`Flags Remaining: ${10 - document.querySelectorAll('.flagged').length}`);
 }
