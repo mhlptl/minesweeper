@@ -33,6 +33,7 @@ body {
     height: 2rem;
     width: 2rem;
     border: 1px solid black;
+    background-color: green;
 }
 
 .list-item:hover {
@@ -46,6 +47,10 @@ body {
 
 .flagged {
     background-color: grey;
+}
+
+.safe {
+    background-color: whitesmoke;
 }
 
 /* too small */

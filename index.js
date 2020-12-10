@@ -5,7 +5,7 @@ for(let i = 0; i < 10; i++) {
     div.className = 'list-container';
     let list = document.createElement('ul');
     list.className = 'list'
-    for(let j = 0; j < 20; j++) {
+    for(let j = 0; j < 10; j++) {
         let listItem = document.createElement('li');
         listItem.className = 'list-item';
         listItem.innerText = '\xA0';
@@ -31,6 +31,19 @@ for(let i = 0; i < item.length; i++) {
         let obj = {x: Number(coords[0]), y: Number(coords[1])};
         if(checkDups(locations, obj)) {
             item[i].classList.add('mine');
+        }
+        else {
+            if(checkSpot(locations, obj) === 0) {
+                let neighbors = []
+                getNeighbors(locations, obj, neighbors);
+                neighbors.forEach((val) => {
+                    document.getElementById(`item-${val}`).classList.add('safe');
+                });
+            }
+            else {
+                item[i].innerHTML = checkSpot(locations, obj);
+                item[i].classList.add('safe');
+            }
         }
         // console.log('left clicked!');
     })
