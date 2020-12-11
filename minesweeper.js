@@ -79,9 +79,14 @@ let parseLocation = (str) => {
     return {x: Number(coords[0]), y: Number(coords[1])};
 }
 
-while(locations.length < numMines) {
-    let x = Math.floor(Math.random() * numMines);
-    let y = Math.floor(Math.random() * numMines);
-    let obj = {x: x, y: y};
-    if(!checkDups(locations, obj)) locations.push(obj);
+let createMines = () => {
+    locations = [];
+    while(locations.length < numMines) {
+        let x = Math.floor(Math.random() * numMines);
+        let y = Math.floor(Math.random() * numMines);
+        let obj = {x: x, y: y};
+        if(!checkDups(locations, obj)) locations.push(obj);
+    }
 }
+
+createMines();

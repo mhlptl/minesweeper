@@ -124,3 +124,9 @@ body {
 .opacity {
     opacity: .35;
 }
+
+#button-container {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}

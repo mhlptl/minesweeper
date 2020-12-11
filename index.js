@@ -75,9 +75,12 @@ let handleClick = (e) => {
     }
 }
 
-for(let i = 0; i < item.length; i++) {
-    item[i].addEventListener('contextmenu', handleContextMenu);
-    item[i].addEventListener('click', handleClick);
+
+let createListeners = () => {
+    for(let i = 0; i < item.length; i++) {
+        item[i].addEventListener('contextmenu', handleContextMenu);
+        item[i].addEventListener('click', handleClick);
+    }
 }
 
 let onWin = () => {
@@ -128,4 +131,30 @@ let clearListener = (target) => {
     target.removeEventListener('contextmenu', handleContextMenu);
 }
 
+let resetClick = () => {
+    if(document.getElementsByClassName('result').length > 0) document.getElementById('container').removeChild(document.getElementsByClassName('result')[0]);
+    document.getElementById('board').classList.remove('opacity');
+    
+    removeClassName(document.querySelectorAll('.flagged'), 'flagged');
+    removeClassName(document.querySelectorAll('.mine'), 'mine');
+    removeClassName(document.querySelectorAll('.safe'), 'safe');
+    let text = document.getElementsByClassName('item-text')
+    for(let i = 0; i < text.length; i++) {
+        text[i].innerText = '\xA0';
+    }
+    changeFlagged();
+    clearInterval(interval);
+    timeElapsed();
+    createMines();
+    createListeners();
+}
+
+let removeClassName = function(arr, className) {
+    arr.forEach((el) => { el.classList.remove(className)});
+}
+
+let reset = document.getElementById('reset');
+reset.addEventListener('click', resetClick);
+
+createListeners();
 timeElapsed();
