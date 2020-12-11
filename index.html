@@ -6,14 +6,21 @@
 	</head>
 	<body>
 		<div id='container'>
+			<div id='board'>
+				<div id='inner-board'></div>
+			</div>
+		</div>
+		<div id='other'>
 			<div id='stats-container'>
 				<p class='stats' id='num-flagged'>Flags Remaining: 10</p>
 				<p class='stats' id='time-elapsed'>Time Elapsed: 00:00:00</p>
 			</div>
-			<div id='board'>
-				<div id='inner-board'></div>
+			<div id='difficulty-container'>
+				<button class='btn difficulty' id='easy'>Easy</button>
+				<button class='btn difficulty' id='medium'>Intermediate</button>
+				<button class='btn difficulty' id='hard'>Hard</button>
 			</div>
-			<div id='button-container'>
+			<div class='button-container'>
 				<button class='btn' id='reset'>Reset</button>
 			</div>
 		</div>
