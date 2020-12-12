@@ -4,11 +4,13 @@ body {
     min-width: 100vw;
 }
 
+/* container holds board */
 #container {
     min-height: 80vh;
     min-width: 100vw;
 }
 
+/* board is centered */
 #board {
     position: absolute;
     top: 50%;
@@ -17,11 +19,13 @@ body {
     border: 5px solid black;
 }
 
+/* container holds list */
 .list-container {
     padding: 0;
     margin: 0;
 }
 
+/* remove styling from list */
 .list {
     min-height: 10px;
     padding: 0;
@@ -30,6 +34,7 @@ body {
     white-space: nowrap;    
 }
 
+/* size of board items; remove style from list */
 .list-item {
     text-align: center;
     display: inline-block;
@@ -41,35 +46,41 @@ body {
     background-color: green;
 }
 
+/* hover over board item */
 .list-item:hover {
     opacity: 0.5;
 }
 
+/* mine item */
 .mine {
     background-color: red;
 }
 
+/* flagged item */
 .flagged {
     background-color: grey;
 }
 
+/* safe item */
 .safe {
     background-color: whitesmoke;
 }
 
+/* size of value inside safe item */
 .item-text {
     line-height: 1.8rem;
     margin: 0;
     padding: 0;
 }
 
+/* centers vertically */
 #stats-container {
-    /* padding-top: 50px; */
     padding: 0;
     margin: 0;
     text-align: center;
 }
 
+/* size of statistics; adds padding in-between */
 .stats {
     font-size: 1.25rem;
     display: inline-block;
@@ -77,10 +88,67 @@ body {
     padding-right: 75px;
 }
 
+/* color of winning text */
+#won {
+    color: green;
+}
 
-/* too small */
+/* color of losing text */
+#lost {
+    color: red;
+}
+
+/* position of results (win/loss) */
+.result {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* opacity of board during win/loss */
+.opacity {
+    opacity: .35;
+}
+
+/* holds reset button  */
+#reset-container {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
+/* holds difficuly container */
+#difficulty-wrapper {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+/* holds difficulty buttons */
+#difficulty-container {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    padding-bottom: 20px;
+    width: 50%;
+}
+
+/* styling for difficulty buttons */
+.difficulty {
+    display: inline-block;
+}
+
+/* centers title */
+#title {
+    margin: 0;
+    padding-top: 10px;
+    text-align: center;
+}
+
+
 @media only screen and (max-height: 468px) {
-    #other {
+    #bottom-container {
         margin-top: 10vh;
     }
 }
@@ -118,39 +186,3 @@ body {
         line-height: 1.3rem;
     }
 } 
-
-#won {
-    color: green;
-}
-
-#lost {
-    color: red;
-}
-
-.result {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.opacity {
-    opacity: .35;
-}
-
-.button-container {
-    display: grid;
-    justify-content: center;
-    align-content: center;
-}
-
-#difficulty-container {
-    display: flex;
-    justify-content: space-around;
-    align-content: center;
-    padding-bottom: 20px;
-}
-
-.difficulty {
-    display: inline-block;
-}

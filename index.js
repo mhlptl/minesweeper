@@ -1,6 +1,6 @@
 let board = document.getElementById('inner-board');
-
 let interval;
+
 
 /**
  * creates an mxn board using html lists
@@ -36,17 +36,16 @@ let createBoard = (row, col) => {
  * handle right click on board
  * toggles flags
  * 
- * @param * e event
+ * @param {*} e event
  */
 let handleContextMenu = (e) => {
     e.preventDefault();
     if(e.target.classList.contains('flagged')) e.target.classList.remove('flagged');
     else {
-        if(document.getElementsByClassName('flagged').length === numMines) return;
+        if(document.getElementsByClassName('flagged').length === game.numMines) return;
         e.target.classList.toggle('flagged');
         if(checkWin()) {
             onWin();
-            clearListeners();
         }
     }
     changeFlagged();
@@ -63,7 +62,7 @@ let handleClick = (e) => {
     target = e.target;
     if(target.classList.contains('flagged')) return;
     let obj = parseLocation(target.id);
-    if(checkDups(locations, obj)) {
+    if(checkDups(game.locations, obj)) {
         target.classList.add('mine');
         clearInterval(interval);
         clearListeners();
@@ -75,25 +74,25 @@ let handleClick = (e) => {
         document.getElementById('board').classList.add('opacity');
     }
     else {
-        if(checkSpot(locations, obj) === 0) {
-            let neighbors = [];
-            visited = [];
-            getNeighbors(locations, obj, neighbors);
+        if(checkSpot(game.locations, obj) === 0) {
+            let neighbors = getNeighbors(game.locations, obj);
             neighbors.forEach((val) => {
-                document.getElementById(`item-${val}`).classList.add('safe');
+                let item = document.getElementById(`item-${val}`);
+                item.classList.add('safe');
+                clearListener(item);
             });
         }
         else {
-            target.innerText = checkSpot(locations, obj);
+            target.innerText = checkSpot(game.locations, obj);
             target.classList.add('safe');
         }
         clearListener(e.currentTarget);
     }
     if(checkWin()) {
         onWin();
-        clearListeners();
     }
 }
+
 
 /**
  * creates listeners for all the board positions
@@ -106,6 +105,10 @@ let createListeners = () => {
     }
 }
 
+
+/**
+ * when a player wins clear all listeners and pause timer
+ */
 let onWin = () => {
     let res = document.createElement('h1');
     res.id = 'won';
@@ -114,26 +117,7 @@ let onWin = () => {
     document.getElementById('container').appendChild(res);
     document.getElementById('board').classList.add('opacity');
     clearInterval(interval);
-}
-
-
-/**
- * converts time from seconds to hh:mm:ss
- * 
- * @param {Number} time time elapsed
- */
-let prettyPrint = (time) => {
-    let hours = "";
-    let minutes = "";
-    let seconds = "";
-    seconds = (time % 59).toString().padStart(2, '0');
-    time = Math.floor(time /= 59);
-    minutes = (time % 59).toString().padStart(2, '0');
-    time = Math.floor(time /= 23);
-    hours = (time % 23).toString().padStart(2, '0');
-
-    return `${hours}:${minutes}:${seconds}`;
-
+    clearListeners();
 }
 
 
@@ -154,7 +138,7 @@ let timeElapsed = () => {
  * change the number of flagged areas
  */
 let changeFlagged = () => {
-    document.getElementById('num-flagged').innerText =  (`Flags Remaining: ${numMines - document.querySelectorAll('.flagged').length}`);
+    document.getElementById('num-flagged').innerText =  (`Flags Remaining: ${game.numMines - document.querySelectorAll('.flagged').length}`);
 }
 
 
@@ -169,6 +153,7 @@ let clearListeners = () => {
     }
 }
 
+
 /**
  * clears all listeners attached to target element
  * 
@@ -179,27 +164,35 @@ let clearListener = (target) => {
     target.removeEventListener('contextmenu', handleContextMenu);
 }
 
+
 /**
- * resets game board
- * resets time
- * creates new game
+ * resets game
  */
 let resetClick = () => {
+    let {row, col} = size(game.numMines);
+    game.startGame(row, col, game.numMines);
+}
+
+
+/**
+ * clears screen
+ */
+let clearAll = () => {
     if(document.getElementsByClassName('result').length > 0) document.getElementById('container').removeChild(document.getElementsByClassName('result')[0]);
     document.getElementById('board').classList.remove('opacity');
-    
+    document.getElementById('time-elapsed').innerText = 'Time Elapsed: 00:00:00';
+
     removeClassName(document.querySelectorAll('.flagged'), 'flagged');
     removeClassName(document.querySelectorAll('.mine'), 'mine');
     removeClassName(document.querySelectorAll('.safe'), 'safe');
+
     let text = document.getElementsByClassName('item-text')
     for(let i = 0; i < text.length; i++) {
         text[i].innerText = '\xA0';
     }
+    
     changeFlagged();
     clearInterval(interval);
-    timeElapsed();
-    createMines();
-    createListeners();
 }
 
 
@@ -223,21 +216,13 @@ let changeDifficulty = (e) => {
     e.preventDefault();
     let target = e.target;
     if(target.id === 'easy') {
-        numMines = 10;
-        createBoard(10, 10);
-        resetClick();
+        game.startGame(10, 10, 10);
     }
     else if(target.id === 'medium') {
-        numMines = 40;
-        createBoard(16, 16);
-        resetClick();
-        // 16x16
+        game.startGame(16, 16, 40);
     }
     else {
-        numMines = 99;
-        createBoard(16, 30);
-        resetClick();
-        // 16x30
+        game.startGame(16, 30, 99);
     }
 }
 
@@ -264,10 +249,6 @@ let removeClassName = function(arr, className) {
     arr.forEach((el) => { el.classList.remove(className)});
 }
 
+
 let reset = document.getElementById('reset');
 reset.addEventListener('click', resetClick);
-
-createBoard(10, 10);
-createListeners();
-timeElapsed();
-difficultyListener();
